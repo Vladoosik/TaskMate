@@ -2,16 +2,9 @@ import React, { useEffect, useState } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebase-config";
 import { authStore } from "../../store/authStore";
-import {
-  ActivityIndicator,
-  FlatList,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-import { RequestCard } from "../../components";
+import { ActivityIndicator, FlatList, SafeAreaView } from "react-native";
+import { EmptyList, RequestCard } from "../../components";
+import { styles } from "./styles";
 
 const FinishedRequestScreen = () => {
   const [requests, setRequests] = useState([]);
@@ -66,10 +59,7 @@ const FinishedRequestScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       {requests.length === 0 ? (
-        <View style={styles.emptyContainer}>
-          <MaterialIcons name="info-outline" size={50} color="gray" />
-          <Text style={styles.emptyText}>Нет завершенных заявок</Text>
-        </View>
+        <EmptyList />
       ) : (
         <FlatList
           data={requests}
@@ -82,26 +72,3 @@ const FinishedRequestScreen = () => {
 };
 
 export default FinishedRequestScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: "#f4f4f4",
-  },
-  centered: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  emptyContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  emptyText: {
-    fontSize: 18,
-    color: "gray",
-    marginTop: 10,
-  },
-});

@@ -5,7 +5,6 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  StyleSheet,
   ScrollView,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
@@ -15,6 +14,7 @@ import { Button, Card } from "react-native-paper";
 import { authStore } from "../../store/authStore";
 import { showMessage } from "react-native-flash-message";
 import { Picker } from "@react-native-picker/picker";
+import { styles } from "./styles";
 
 const categories = ["Ремонт", "Клининг", "Доставка", "Электрика"];
 
@@ -84,8 +84,6 @@ const CreateRequestScreen = ({ navigation }) => {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Text style={styles.title}>Создать заявку</Text>
-
         <Card style={styles.card}>
           <TouchableOpacity onPress={pickImage} style={styles.imagePicker}>
             <Text style={styles.imagePickerText}>Выбрать фото/видео</Text>
@@ -125,57 +123,4 @@ const CreateRequestScreen = ({ navigation }) => {
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: "#F5F5F5",
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: "bold",
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  card: {
-    padding: 15,
-    marginBottom: 15,
-  },
-  imagePicker: {
-    backgroundColor: "#E0E0E0",
-    padding: 15,
-    borderRadius: 5,
-    alignItems: "center",
-  },
-  imagePickerText: {
-    color: "#007AFF",
-    fontWeight: "bold",
-  },
-  image: {
-    width: "100%",
-    height: 200,
-    marginTop: 10,
-    borderRadius: 5,
-  },
-  label: {
-    fontSize: 16,
-    marginBottom: 5,
-    textAlign: "center",
-    fontWeight: "bold",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#CCC",
-    padding: 10,
-    borderRadius: 5,
-    backgroundColor: "white",
-    marginBottom: 15,
-  },
-  button: {
-    marginTop: 10,
-    paddingVertical: 10,
-  },
-});
-
 export default CreateRequestScreen;

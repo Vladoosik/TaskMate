@@ -14,6 +14,12 @@ import { useEffect, useState } from "react";
 import { authStore } from "../../store/authStore";
 import { observer } from "mobx-react";
 import { ActivityIndicator } from "react-native";
+import {
+  activeRequestOption,
+  finishedRequestOption,
+  requestDetailsOption,
+  unrankedRequestOption,
+} from "./config";
 
 const AppNavigator = () => {
   const [checked, setChecked] = useState(false);
@@ -43,23 +49,17 @@ const AppNavigator = () => {
               <Stack.Screen
                 name="ActiveClientRequests"
                 component={UserRequestsScreen}
-                options={{ title: "Активные заявки", headerBackTitle: "Назад" }}
+                options={activeRequestOption}
               />
               <Stack.Screen
                 name="FinishedRequest"
                 component={FinishedRequestScreen}
-                options={{
-                  title: "Завершенные",
-                  headerBackTitle: "Назад",
-                }}
+                options={finishedRequestOption}
               />
               <Stack.Screen
                 name="UnrankedRequests"
                 component={UnrankedRequests}
-                options={{
-                  title: "Нужны оценки",
-                  headerBackTitle: "Назад",
-                }}
+                options={unrankedRequestOption}
               />
             </>
           ) : (
@@ -72,25 +72,22 @@ const AppNavigator = () => {
               <Stack.Screen
                 name="RequestDetails"
                 component={RequestDetailsScreen}
-                options={{ title: "Детали заявки", headerBackTitle: "Назад" }}
+                options={requestDetailsOption}
               />
               <Stack.Screen
                 name="ExecutorRequests"
                 component={ExecutorRequestScreen}
-                options={{ title: "Активные заявки", headerBackTitle: "Назад" }}
+                options={activeRequestOption}
               />
               <Stack.Screen
                 name="FinishedRequest"
                 component={FinishedRequestScreen}
-                options={{
-                  title: "Завершенные",
-                  headerBackTitle: "Назад",
-                }}
+                options={finishedRequestOption}
               />
               <Stack.Screen
                 name="ExecutorDetails"
                 component={ExecutorDetailsScreen}
-                options={{ title: "Детали заявки", headerBackTitle: "Назад" }}
+                options={requestDetailsOption}
               />
             </>
           )
