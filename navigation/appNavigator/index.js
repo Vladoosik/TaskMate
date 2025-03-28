@@ -2,9 +2,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { Stack } from "../../configs/authNavigationConfig";
 import {
   AuthScreen,
+  ChatScreen,
   ExecutorDetailsScreen,
   ExecutorRequestScreen,
   FinishedRequestScreen,
+  OtherProfile,
   RequestDetailsScreen,
   UnrankedRequests,
   UserRequestsScreen,
@@ -16,7 +18,9 @@ import { observer } from "mobx-react";
 import { ActivityIndicator } from "react-native";
 import {
   activeRequestOption,
+  ChatOption,
   finishedRequestOption,
+  OtherProfileOptions,
   requestDetailsOption,
   unrankedRequestOption,
 } from "./config";
@@ -35,6 +39,20 @@ const AppNavigator = () => {
     return <ActivityIndicator style={{ flex: 1 }} />;
   }
 
+  const commonStacks = [
+    <Stack.Screen
+      name="FinishedRequest"
+      component={FinishedRequestScreen}
+      options={finishedRequestOption}
+    />,
+    <Stack.Screen
+      name="OtherProfile"
+      component={OtherProfile}
+      options={OtherProfileOptions}
+    />,
+    <Stack.Screen name="Chat" component={ChatScreen} options={ChatOption} />,
+  ];
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -52,15 +70,11 @@ const AppNavigator = () => {
                 options={activeRequestOption}
               />
               <Stack.Screen
-                name="FinishedRequest"
-                component={FinishedRequestScreen}
-                options={finishedRequestOption}
-              />
-              <Stack.Screen
                 name="UnrankedRequests"
                 component={UnrankedRequests}
                 options={unrankedRequestOption}
               />
+              {commonStacks}
             </>
           ) : (
             <>
@@ -80,15 +94,11 @@ const AppNavigator = () => {
                 options={activeRequestOption}
               />
               <Stack.Screen
-                name="FinishedRequest"
-                component={FinishedRequestScreen}
-                options={finishedRequestOption}
-              />
-              <Stack.Screen
                 name="ExecutorDetails"
                 component={ExecutorDetailsScreen}
                 options={requestDetailsOption}
               />
+              {commonStacks}
             </>
           )
         ) : (

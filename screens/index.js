@@ -8,3 +8,6 @@ export { default as ExecutorRequestScreen } from "./executorRequestScreen/index"
 export { default as ExecutorDetailsScreen } from "./executorDetailsScreen/index";
 export { default as FinishedRequestScreen } from "./finishedRequests/index";
 export { default as UnrankedRequests } from "./unrankedRequest/index";
+export { default as OtherProfile } from "./otherProfile/index";
+export { default as ChatScreen } from "./chatScreen/index";
+export { default as ChatList } from "./chatList/index";

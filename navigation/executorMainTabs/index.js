@@ -1,6 +1,6 @@
 import { Tab } from "../../configs/authNavigationConfig";
-import { ProfileScreen, ProposalsScreen } from "../../screens";
-import { profileOption, proposalOption } from "./config";
+import { ChatList, ProfileScreen, ProposalsScreen } from "../../screens";
+import { chatListOption, profileOption, proposalOption } from "./config";
 
 const ExecutorMainTabs = () => (
   <Tab.Navigator>
@@ -8,6 +8,11 @@ const ExecutorMainTabs = () => (
       name="Proposal"
       component={ProposalsScreen}
       options={proposalOption}
+    />
+    <Tab.Screen
+      name="ChatExecutor"
+      component={ChatList}
+      options={chatListOption}
     />
     <Tab.Screen
       name="Profile"

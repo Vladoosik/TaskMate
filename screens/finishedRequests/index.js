@@ -6,10 +6,22 @@ import { ActivityIndicator, FlatList, SafeAreaView } from "react-native";
 import { EmptyList, RequestCard } from "../../components";
 import { styles } from "./styles";
 
-const FinishedRequestScreen = () => {
+const FinishedRequestScreen = ({ navigation }) => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const handleUserNavigate = (item) => {
+    const selectedUser = item.executor?.id;
+    if (selectedUser === authStore.userId) {
+      navigation.navigate("ExecutorTabs", {
+        screen: "Profile",
+      });
+    } else {
+      navigation.push("OtherProfile", {
+        userId: selectedUser,
+      });
+    }
+  };
   useEffect(() => {
     const getFinishedRequests = async () => {
       try {
@@ -64,7 +76,12 @@ const FinishedRequestScreen = () => {
         <FlatList
           data={requests}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <RequestCard item={item} />}
+          renderItem={({ item }) => (
+            <RequestCard
+              item={item}
+              onExecutorPress={() => handleUserNavigate(item)}
+            />
+          )}
         />
       )}
     </SafeAreaView>

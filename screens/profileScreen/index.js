@@ -1,13 +1,16 @@
-import React from "react";
-import { Alert, SafeAreaView, Text } from "react-native";
+import React, { useEffect } from "react";
+import { Alert, SafeAreaView, Text, View } from "react-native";
 import { Avatar, Button, Card } from "react-native-paper";
 import { observer } from "mobx-react";
 import asyncStorage from "@react-native-async-storage/async-storage";
 import { authStore } from "../../store/authStore";
 import { styles } from "./styles";
+import { FontAwesome } from "@expo/vector-icons";
+import { profileStore } from "../../store/profileStore";
 
 const ProfileScreen = observer(({ navigation }) => {
   const isExecutor = authStore?.user?.role === "executor";
+  const textRole = isExecutor ? "Исполнитель" : "Клиент";
   const handleLogout = async () => {
     Alert.alert("Выход", "Вы действительно хотите выйти?", [
       { text: "Отмена", style: "cancel" },
@@ -21,6 +24,12 @@ const ProfileScreen = observer(({ navigation }) => {
       },
     ]);
   };
+
+  useEffect(() => {
+    if (isExecutor) {
+      profileStore.getRatingUser(authStore.userId);
+    }
+  }, [isExecutor, authStore.userId]);
 
   const handleRequestNav = () => {
     if (isExecutor) {
@@ -42,13 +51,22 @@ const ProfileScreen = observer(({ navigation }) => {
       <Card style={styles.card}>
         <Avatar.Text
           size={80}
-          label={authStore.user.email.charAt(0).toUpperCase()}
+          label={authStore?.user?.email?.charAt(0).toUpperCase()}
           style={styles.avatar}
         />
-        <Text style={styles.email}>{authStore.user.email}</Text>
+        <Text style={styles.email}>{authStore?.user?.email}</Text>
         <Text style={styles.role}>
-          Роль: <Text style={styles.roleText}>{authStore.user.role}</Text>
+          Роль: <Text style={styles.roleText}>{textRole}</Text>
         </Text>
+        {isExecutor && profileStore.executorRating !== null && (
+          <View style={styles.ratingContainer}>
+            <Text style={styles.ratingText}>
+              Рейтинг: {profileStore.executorRating || 0}
+            </Text>
+            <FontAwesome name="star" size={16} color="#FFD700" />
+          </View>
+        )}
+
         <Button
           mode="outlined"
           onPress={handleRequestNav}
@@ -56,6 +74,7 @@ const ProfileScreen = observer(({ navigation }) => {
         >
           Активные заявки
         </Button>
+
         {!isExecutor && (
           <Button
             mode="outlined"
@@ -65,13 +84,15 @@ const ProfileScreen = observer(({ navigation }) => {
             Требуют оценки
           </Button>
         )}
+
         <Button
           mode="outlined"
           onPress={handleFinishedRequestNav}
           style={styles.activeRequests}
         >
-          Завершенные завки
+          Завершенные заявки
         </Button>
+
         <Button mode="contained" onPress={handleLogout} style={styles.button}>
           Выйти
         </Button>

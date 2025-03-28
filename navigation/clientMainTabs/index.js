@@ -1,12 +1,17 @@
 import { Tab } from "../../configs/authNavigationConfig";
-import { CreateRequestScreen, ProfileScreen } from "../../screens";
-import { createRequestOption, profileOption } from "./config";
+import { ChatList, CreateRequestScreen, ProfileScreen } from "../../screens";
+import { chatListOption, createRequestOption, profileOption } from "./config";
 const ClientMainTabs = () => (
   <Tab.Navigator>
     <Tab.Screen
       name="CreateRequest"
       component={CreateRequestScreen}
       options={createRequestOption}
+    />
+    <Tab.Screen
+      name="ChatClient"
+      component={ChatList}
+      options={chatListOption}
     />
     <Tab.Screen
       name="Profile"

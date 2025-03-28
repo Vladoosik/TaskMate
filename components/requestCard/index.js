@@ -1,7 +1,14 @@
-import React from "react";
-import { Image, Text, TouchableOpacity, View, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  TouchableWithoutFeedback,
+} from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 
-const RequestCard = ({ item, onCardPress }) => {
+const RequestCard = ({ item, onCardPress, onExecutorPress }) => {
   return (
     <TouchableOpacity
       activeOpacity={1}
@@ -14,6 +21,21 @@ const RequestCard = ({ item, onCardPress }) => {
         <Text style={styles.description} numberOfLines={2}>
           {item.description}
         </Text>
+        {item.executor?.name && (
+          <Text style={styles.executorTitle}>
+            Исполнитель:{" "}
+            <TouchableWithoutFeedback onPress={onExecutorPress}>
+              <Text style={styles.executor}>{item.executor.name}</Text>
+            </TouchableWithoutFeedback>
+          </Text>
+        )}
+        {item?.rating && (
+          <View style={styles.ratingContainer}>
+            {[...Array(item.rating)].map((_, index) => (
+              <FontAwesome key={index} name="star" size={16} color="#FFD700" />
+            ))}
+          </View>
+        )}
       </View>
     </TouchableOpacity>
   );
@@ -53,5 +75,19 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#666",
     marginTop: 4,
+  },
+  executorTitle: {
+    fontSize: 13,
+    color: "#666",
+    marginTop: 6,
+  },
+  executor: {
+    fontSize: 13,
+    color: "#007AFF",
+    marginTop: 6,
+  },
+  ratingContainer: {
+    flexDirection: "row",
+    marginTop: 6,
   },
 });

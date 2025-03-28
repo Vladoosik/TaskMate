@@ -109,7 +109,6 @@ const CreateRequestScreen = ({ navigation }) => {
           onChangeText={setDescription}
           multiline
         />
-
         <Button
           mode="contained"
           onPress={handleSubmit}

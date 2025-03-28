@@ -3,6 +3,15 @@ export const finishedRequestOption = {
   headerBackTitle: "Назад",
 };
 
+export const OtherProfileOptions = {
+  title: "Профиль",
+  headerBackTitle: "Назад",
+};
+
+export const ChatOption = {
+  headerShown: false,
+};
+
 export const activeRequestOption = {
   title: "Активные заявки",
   headerBackTitle: "Назад",
