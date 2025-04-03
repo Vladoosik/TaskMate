@@ -17,7 +17,7 @@ import { styles } from "./styles";
 const ChatList = ({ navigation }) => {
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(true);
-  const currentUserId = authStore.userId; // ID текущего пользователя
+  const currentUserId = authStore.userId;
 
   useEffect(() => {
     const q = query(collection(db, "chats"));
@@ -66,6 +66,10 @@ const ChatList = ({ navigation }) => {
                   locale: ru,
                 })
               : "";
+            const authorLastMessage =
+              item.lastMessage?.author.id === currentUserId
+                ? "Вы"
+                : item.lastMessage?.name;
 
             return (
               <TouchableOpacity
@@ -78,9 +82,7 @@ const ChatList = ({ navigation }) => {
                   style={{ backgroundColor: "#007AFF", marginRight: 12 }}
                 />
                 <View style={{ flex: 1 }}>
-                  <Text style={styles.authorMessage}>
-                    {item.lastMessage?.name || "Неизвестный"}
-                  </Text>
+                  <Text style={styles.authorMessage}>{authorLastMessage}</Text>
                   <Text style={styles.lastMessage} numberOfLines={1}>
                     {lastMessage}
                   </Text>

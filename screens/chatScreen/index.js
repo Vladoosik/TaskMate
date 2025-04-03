@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
-import { getDocs, orderBy, where } from "firebase/firestore";
+import { orderBy } from "firebase/firestore";
 import { getUserProfile } from "../../utils/functions/getUserProfile";
 import { ChatHeader } from "../../components";
 import { Chat } from "@flyerhq/react-native-chat-ui";
@@ -31,6 +31,27 @@ const ChatScreen = ({ navigation, route }) => {
   };
   const chatId = [currentUserId, userId].sort().join("_");
 
+  const markMessagesAsRead = async (snapshot) => {
+    if (!snapshot) return;
+
+    const chatRef = doc(db, "chats", chatId);
+
+    await updateDoc(chatRef, {
+      [`unreadCount.${currentUserId}`]: 0,
+    });
+
+    const unreadMessages = snapshot.docs.filter(
+      (doc) =>
+        doc.data().status !== "seen" && doc.data().author.id !== currentUserId,
+    );
+
+    unreadMessages.forEach(async (msg) => {
+      await updateDoc(doc(db, "chats", chatId, "messages", msg.id), {
+        status: "seen",
+      });
+    });
+  };
+
   useEffect(() => {
     const messagesRef = collection(db, "chats", chatId, "messages");
     const q = query(messagesRef, orderBy("createdAt", "desc"));
@@ -41,28 +62,10 @@ const ChatScreen = ({ navigation, route }) => {
         ...doc.data(),
       }));
       setMessages(newMessages);
+
+      markMessagesAsRead(snapshot);
     });
-    const markMessagesAsRead = async () => {
-      const chatRef = doc(db, "chats", chatId);
 
-      // Обнуляем счетчик непрочитанных сообщений для текущего пользователя
-      await updateDoc(chatRef, {
-        [`unreadCount.${currentUserId}`]: 0,
-      });
-
-      // Загружаем все сообщения, которые не были прочитаны
-      const q = query(messagesRef, where("status", "!=", "seen")); // Фильтруем непрочитанные
-      const unreadMessagesSnapshot = await getDocs(q);
-
-      // Обновляем статус каждого непрочитанного сообщения на `read`
-      unreadMessagesSnapshot.forEach(async (msg) => {
-        await updateDoc(doc(db, "chats", chatId, "messages", msg.id), {
-          status: "seen",
-        });
-      });
-    };
-
-    markMessagesAsRead();
     return () => unsubscribe();
   }, []);
 

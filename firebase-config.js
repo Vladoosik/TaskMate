@@ -1,15 +1,16 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { initializeAuth } from "firebase/auth";
+import Constants from "expo-constants";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAUSFOYnwvmnQaI95MAvuB6y91KThFCp4w",
-  authDomain: "taskmate-7ab2d.firebaseapp.com",
-  projectId: "taskmate-7ab2d",
-  storageBucket: "taskmate-7ab2d.firebasestorage.app",
-  messagingSenderId: "1075208889306",
-  appId: "1:1075208889306:web:ca9fd6bea7f456a9dad6e3",
-  measurementId: "G-N3W37PZY97",
+  apiKey: Constants.expoConfig.extra.firebaseApiKey,
+  authDomain: Constants.expoConfig.extra.firebaseAuthDomain,
+  projectId: Constants.expoConfig.extra.firebaseProjectId,
+  storageBucket: Constants.expoConfig.extra.firebaseStorageBucket,
+  messagingSenderId: Constants.expoConfig.extra.firebaseMessagingSenderId,
+  appId: Constants.expoConfig.extra.firebaseAppId,
+  measurementId: Constants.expoConfig.extra.firebaseMeasurementId,
 };
 
 export const app = initializeApp(firebaseConfig, {});
