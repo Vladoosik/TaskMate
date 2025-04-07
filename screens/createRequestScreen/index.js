@@ -9,12 +9,13 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "../../firebase-config";
+import { db, storage } from "../../firebase-config";
 import { Button, Card } from "react-native-paper";
 import { authStore } from "../../store/authStore";
 import { showMessage } from "react-native-flash-message";
 import { Picker } from "@react-native-picker/picker";
 import { styles } from "./styles";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 
 const categories = ["Ремонт", "Клининг", "Доставка", "Электрика"];
 
@@ -47,17 +48,21 @@ const CreateRequestScreen = ({ navigation }) => {
     setLoading(true);
 
     try {
+      const response = await fetch(image);
+      const blob = await response.blob();
+      const imageRef = ref(
+        storage,
+        `requests/${Date.now()}_${authStore.userId}.jpg`,
+      );
+      await uploadBytes(imageRef, blob);
+
+      const imageUrl = await getDownloadURL(imageRef);
+
       await addDoc(collection(db, "requests"), {
         userId: authStore.userId,
         description,
         category,
-        image,
-        price: null,
-        executor: {
-          id: null,
-          name: null,
-        },
-        mark: null,
+        image: imageUrl,
         status: "open",
         createdAt: serverTimestamp(),
       });

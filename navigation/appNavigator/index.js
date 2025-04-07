@@ -24,7 +24,16 @@ import {
   requestDetailsOption,
   unrankedRequestOption,
 } from "./config";
+import { NotificationProvider } from "../../context/NotificationContext";
+import * as Notification from "expo-notifications";
 
+Notification.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 const AppNavigator = () => {
   const [checked, setChecked] = useState(false);
   useEffect(() => {
@@ -54,62 +63,64 @@ const AppNavigator = () => {
   ];
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        {authStore.userId ? (
-          authStore.user.role === "client" ? (
-            <>
-              <Stack.Screen
-                name="ClientTabs"
-                component={ClientMainTabs}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="ActiveClientRequests"
-                component={UserRequestsScreen}
-                options={activeRequestOption}
-              />
-              <Stack.Screen
-                name="UnrankedRequests"
-                component={UnrankedRequests}
-                options={unrankedRequestOption}
-              />
-              {commonStacks}
-            </>
+    <NotificationProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          {authStore.userId ? (
+            authStore.user.role === "client" ? (
+              <>
+                <Stack.Screen
+                  name="ClientTabs"
+                  component={ClientMainTabs}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="ActiveClientRequests"
+                  component={UserRequestsScreen}
+                  options={activeRequestOption}
+                />
+                <Stack.Screen
+                  name="UnrankedRequests"
+                  component={UnrankedRequests}
+                  options={unrankedRequestOption}
+                />
+                {commonStacks}
+              </>
+            ) : (
+              <>
+                <Stack.Screen
+                  name="ExecutorTabs"
+                  component={ExecutorMainTabs}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="RequestDetails"
+                  component={RequestDetailsScreen}
+                  options={requestDetailsOption}
+                />
+                <Stack.Screen
+                  name="ExecutorRequests"
+                  component={ExecutorRequestScreen}
+                  options={activeRequestOption}
+                />
+                <Stack.Screen
+                  name="ExecutorDetails"
+                  component={ExecutorDetailsScreen}
+                  options={requestDetailsOption}
+                />
+                {commonStacks}
+              </>
+            )
           ) : (
-            <>
-              <Stack.Screen
-                name="ExecutorTabs"
-                component={ExecutorMainTabs}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="RequestDetails"
-                component={RequestDetailsScreen}
-                options={requestDetailsOption}
-              />
-              <Stack.Screen
-                name="ExecutorRequests"
-                component={ExecutorRequestScreen}
-                options={activeRequestOption}
-              />
-              <Stack.Screen
-                name="ExecutorDetails"
-                component={ExecutorDetailsScreen}
-                options={requestDetailsOption}
-              />
-              {commonStacks}
-            </>
-          )
-        ) : (
-          <Stack.Screen
-            name="Auth"
-            component={AuthScreen}
-            options={{ headerShown: false }}
-          />
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
+            <Stack.Screen
+              name="Auth"
+              component={AuthScreen}
+              options={{ headerShown: false }}
+            />
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </NotificationProvider>
   );
 };
 

@@ -13,10 +13,6 @@
     "@expo/vector-icons": "^14.0.4",
     "@flyerhq/react-native-chat-ui": "^1.4.3",
     "@react-native-async-storage/async-storage": "1.23.1",
-    "@react-native-firebase/app": "^21.12.0",
-    "@react-native-firebase/auth": "^21.12.0",
-    "@react-native-firebase/crashlytics": "^21.12.0",
-    "@react-native-firebase/firestore": "^21.12.0",
     "@react-native-picker/picker": "^2.11.0",
     "@react-navigation/bottom-tabs": "^7.2.1",
     "@react-navigation/native": "^7.0.15",
@@ -25,8 +21,10 @@
     "dotenv": "^16.4.7",
     "expo": "^52.0.40",
     "expo-constants": "~17.0.8",
-    "expo-device": "~7.0.2",
+    "expo-dev-client": "~5.0.19",
+    "expo-device": "~7.0.3",
     "expo-image-picker": "^16.0.6",
+    "expo-modules-core": "2.2.3",
     "expo-notifications": "~0.29.14",
     "expo-status-bar": "~2.0.1",
     "firebase": "^11.4.0",
@@ -49,6 +47,5 @@
     "@types/react": "~18.3.12",
     "typescript": "^5.3.3"
   },
-  "private": true,
-  "packageManager": "yarn@4.6.0+sha512.5383cc12567a95f1d668fbe762dfe0075c595b4bfff433be478dbbe24e05251a8e8c3eb992a986667c1d53b6c3a9c85b8398c35a960587fbd9fa3a0915406728"
+  "private": true
 }

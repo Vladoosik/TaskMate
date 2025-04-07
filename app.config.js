@@ -24,6 +24,7 @@ export default {
         backgroundColor: "#ffffff",
       },
       package: "com.vladoosik.TaskMate",
+      googleServicesFile: "./google-services.json",
     },
     web: {
       favicon: "./assets/favicon.png",
@@ -36,6 +37,10 @@ export default {
       firebaseMessagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
       firebaseAppId: process.env.FIREBASE_APP_ID,
       firebaseMeasurementId: process.env.FIREBASE_MEASUREMENT_ID,
+      eas: {
+        projectId: "c542e602-2157-4ef7-85b1-9ca91533844a",
+      },
     },
+    owner: "vladoosik",
   },
 };
