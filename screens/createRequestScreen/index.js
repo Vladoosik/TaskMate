@@ -1,21 +1,22 @@
 import React, { useState } from "react";
 import {
-  View,
+  Image,
+  ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
-  Image,
-  ScrollView,
+  View,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db, storage } from "../../firebase-config";
 import { Button, Card } from "react-native-paper";
 import { authStore } from "../../store/authStore";
 import { showMessage } from "react-native-flash-message";
 import { Picker } from "@react-native-picker/picker";
 import { styles } from "./styles";
-import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { uploadImageAsync } from "../../utils/functions/uploadImage";
 
 const categories = ["Ремонт", "Клининг", "Доставка", "Электрика"];
 
@@ -32,7 +33,7 @@ const CreateRequestScreen = ({ navigation }) => {
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ["images"],
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
@@ -48,15 +49,7 @@ const CreateRequestScreen = ({ navigation }) => {
     setLoading(true);
 
     try {
-      const response = await fetch(image);
-      const blob = await response.blob();
-      const imageRef = ref(
-        storage,
-        `requests/${Date.now()}_${authStore.userId}.jpg`,
-      );
-      await uploadBytes(imageRef, blob);
-
-      const imageUrl = await getDownloadURL(imageRef);
+      const imageUrl = await uploadImageAsync(image, "requests");
 
       await addDoc(collection(db, "requests"), {
         userId: authStore.userId,

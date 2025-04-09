@@ -69,7 +69,7 @@ const ChatList = ({ navigation }) => {
             const authorLastMessage =
               item.lastMessage?.author.id === currentUserId
                 ? "Вы"
-                : item.lastMessage?.name;
+                : item.lastMessage?.author.name;
 
             return (
               <TouchableOpacity
